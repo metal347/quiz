@@ -1,7 +1,19 @@
+<a href="/quizes/new"><button>Crear pregunta</button></a>
+<br><br>
+
+<form method="get" action="/quizes">
+  <label for="buscar" class="rem">Buscar pregunta: </label>
+  <input type="text" name="search" placeholder="Patrón de búsqueda" />
+  <input type="submit" value="Buscar">
+</form>
+<br>
+
 <table>
+  <tr><th class="rem">Pregunta</th><th class="rem">Tema</th></tr>
   <% var i; for (i=0; i < quizes.length; i++) { %>        
     <tr>
       <td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+      <td><%= quizes[i].tema %></td>
       <td><a href="quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
       <td>
         <form method="post" action="quizes/<%= quizes[i].id %>?_method=delete">
@@ -13,12 +25,3 @@
     </tr> 
   <% } %>
 </table>
-<p/><br>
-<a href="/quizes/new"><button>Crear pregunta</button></a>
-
-<br><br>
-<form method="get" action="/quizes">
-  Buscar pregunta: <p>
-  <input type="text" name="search" placeholder="Patrón de búsqueda" />
-  <input type="submit" value="Buscar">
-</form>

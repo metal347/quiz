@@ -2,7 +2,7 @@ body             { background: #333; }
 
 #page-wrap:after { content: "Smartphone Layout"; }
 
-h2 span, section h3, label.rem 
+h2 span, section h3, label.rem, th.rem
                  { display: none; }
 body             { font-size: xx-large; }
 input, button    { font-size: x-large; }
