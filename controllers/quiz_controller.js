@@ -2,7 +2,15 @@ var models = require('../models/models.js');
 
 // Autoload :id
 exports.load = function(req, res, next, quizId) {
-  models.Quiz.find(quizId).then(
+  models.Quiz.find({
+    where: {
+      id: Number(quizId)
+    },
+    // incluimos en req.quiz la propiedad Comments con todos los comentarios asociados al quiz
+    include: [{
+      model: models.Comment
+    }]
+  }).then(
     function(quiz) {
       if (quiz) {
         req.quiz = quiz;
