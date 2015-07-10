@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var partials = require('express-partials');
 var methodOverride = require('method-override');
+var session = require('express-session');
 
 var routes = require('./routes/index');
 var app = express();
@@ -21,9 +22,23 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+app.use(cookieParser('Quiz 2015'));     // semilla 'Quiz 2015' para cifrar cookie
+app.use(session());
+
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Helpers dinamicos:
+app.use(function(req, res, next) {
+    // guarda la ruta de cada solicitud HTTP en la variable session.redir para poder redireccionar a la vista anterior después de hacer login o logout
+    if (!req.path.match(/\/login|\/logout/)) {
+        req.session.redir = req.path;
+    }
+
+    // Hacer visible req.session en las vistas
+    res.locals.session = req.session;
+    next();
+});
 
 app.use('/', routes);
 
@@ -59,6 +74,5 @@ app.use(function(err, req, res, next) {
         errors: []
     });
 });
-
 
 module.exports = app;
