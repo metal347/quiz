@@ -8,5 +8,13 @@
 
 <p><strong>Comentarios:</strong></p>
 <%for(index in quiz.Comments){%>
-	<p>- <%=quiz.Comments[index].texto%></p>
+	<%if(quiz.Comments[index].publicado || session.user){%>
+		- <%=quiz.Comments[index].texto%>
+			<%if(session.user && !quiz.Comments[index].publicado){%>
+				<form class="NoSaltoLinea" method="post" action="/quizes/<%= quiz.id%>/comments/<%=quiz.Comments[index].id %>/publish?_method=put">
+					<input type="submit" value="Publicar">
+				</form>
+			<%}%>
+		<br>
+	<%}%>	
 <%}%>
