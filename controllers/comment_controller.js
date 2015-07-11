@@ -43,7 +43,7 @@ exports.create = function(req, res) {
   
 };
 
-// GET /quizes/:quizId/comments/:commentId/publish
+// PUT /quizes/:quizId/comments/:commentId/publish
 exports.publish = function(req, res) {
   req.comment.publicado = true;
 
