@@ -28,6 +28,28 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// tiempo de sesión sin actividad: 2 min
+app.use(function(req, res, next) {
+    // si estamos en una sesión
+    if (req.session.user) {
+        // si nos acabamos de logear, empieza el tiempo de sesión
+        if (!req.session.tiempo) {
+            req.session.tiempo = new Date().getTime();
+        }
+        else {
+            // si no ha habido actividad en 2 min (120000 ms)
+            if (new Date().getTime() - req.session.tiempo > 120000) {
+                delete req.session.user;    // eliminamos la sesión
+                delete req.session.tiempo;  // eliminamos el tiempo de sesión
+            }
+            else {
+                req.session.tiempo = new Date().getTime();  // empieza de nuevo el tiempo de sesión
+            }
+        }
+    }
+    next();
+});
+
 // Helpers dinamicos:
 app.use(function(req, res, next) {
     // guarda la ruta de cada solicitud HTTP en la variable session.redir para poder redireccionar a la vista anterior después de hacer login o logout
