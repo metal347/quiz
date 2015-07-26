@@ -47,6 +47,7 @@ Quiz.hasMany(Comment);      // 1 pregunta tiene muchos comentarios
 
 exports.Quiz = Quiz;        // exportar tabla Quiz
 exports.Comment = Comment;  // exportar tabla Comment
+// exports.sequelize = sequelize;  // exportar sequelize para hacer las RAW Queries en estadísticas (statistics_controller.js)
 
 // sequelize.sync() crea e inicializa tabla de preguntas en DB
 sequelize.sync().then(function() {
