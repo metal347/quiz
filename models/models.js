@@ -42,8 +42,18 @@ var Comment = sequelize.import(comment_path);
 
 // Relación 1:N entre tablas Quiz (preguntas) y Comment (comentarios)
 // sequelize resuelve las relaciones; hace por ti el definir un campo extra en la tabla Comment con la 'primaryKey' de Quiz; lo llama QuizId
-Comment.belongsTo(Quiz);    // 1 comentario pertenece a 1 pregunta
-Quiz.hasMany(Comment);      // 1 pregunta tiene muchos comentarios
+
+// 1 comentario pertenece a 1 pregunta
+Comment.belongsTo(Quiz);
+
+// 1 pregunta tiene muchos comentarios
+// Borrado en cascada de comentarios relacionados al borrar pregunta
+Quiz.hasMany(Comment, {
+  'constraints': true,
+  'onUpdate': 'cascade',
+  'onDelete': 'cascade',
+  'hooks': true
+});
 
 exports.Quiz = Quiz;        // exportar tabla Quiz
 exports.Comment = Comment;  // exportar tabla Comment
